@@ -27,6 +27,7 @@ export default class App extends Component {
       alert(`${newContact.name} is already in contacts`);
       return;
     } else if (!newContact.name || !newContact.number) {
+      alert('Fill the form');
       return;
     }
 
