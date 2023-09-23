@@ -22,8 +22,11 @@ export default class App extends Component {
   };
 
   handleContact = newContact => {
+    console.dir(newContact.name);
     if (this.state.contacts.some(name => name.name === newContact.name)) {
       alert(`${newContact.name} is already in contacts`);
+      return;
+    } else if (!newContact.name || !newContact.number) {
       return;
     }
 

@@ -11,11 +11,13 @@ export default class Contacts extends Component {
   handleSubmit = (values, { resetForm }) => {
     const { name } = values;
     const { number } = values;
+    const trimName = name.trim();
+    const trimNumber = number.trim();
     const newContact = {
       ...this.state,
       id: nanoid(),
-      name,
-      number,
+      name: trimName,
+      number: trimNumber,
     };
 
     this.props.handleContact(newContact);
