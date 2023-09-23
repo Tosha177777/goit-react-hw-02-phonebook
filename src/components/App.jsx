@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Contacts from './Form/Contacts';
 import Title from 'components/Title/Title';
-import ContactItem from './ContactList/ContactItemRender';
+import ContactList from './ContactList/ContactItemRender';
+import Filter from './Filter/Filter';
+
 export class App extends Component {
   state = {
     contacts: [
@@ -10,24 +12,44 @@ export class App extends Component {
       { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
     ],
-    name: '',
-    number: '',
+    filter: '',
+  };
+
+  onDelete = name => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.name !== name),
+    }));
   };
 
   handleContact = newContact => {
+    if (this.state.contacts.some(name => name.name === newContact.name)) {
+      alert(`${newContact.name} is already in contacts`);
+      return;
+    }
+
     this.setState(prevState => ({
       contacts: [...prevState.contacts, newContact],
     }));
-    console.log(this.state.contacts);
   };
+
+  onFilterChange = e => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  };
+
   render() {
+    const { contacts, filter } = this.state;
+    const filteredContacts = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
     return (
       <div>
-        <Contacts handleContact={this.handleContact} />
+        <Title title={'Phonebook'}>
+          <Contacts handleContact={this.handleContact} />
+        </Title>
         <Title title={'Contacts'}>
-          <ul>
-            <ContactItem contacts={this.state.contacts} />
-          </ul>
+          <Filter filter={filter} onFilterChange={this.onFilterChange} />
+          <ContactList contacts={filteredContacts} onDelete={this.onDelete} />
         </Title>
       </div>
     );

@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { nanoid } from 'nanoid';
-import Title from 'components/Title/Title';
+import css from './Contacts.module.css';
 
 export default class Contacts extends Component {
+  state = {
+    name: '',
+    number: '',
+  };
+
   handleSubmit = (values, { resetForm }) => {
     const { name } = values;
     const { number } = values;
     const newContact = {
+      ...this.state,
       id: nanoid(),
       name,
       number,
@@ -20,24 +26,19 @@ export default class Contacts extends Component {
   render() {
     return (
       <>
-        <Title title={'Phonebook'}>
-          <Formik
-            initialValues={{ name: '', number: '' }}
-            onSubmit={this.handleSubmit}
-          >
-            <Form>
-              <label htmlFor="name">
-                Name
-                <Field type="text" name="name" required />
-              </label>
-              <label htmlFor="tel">
-                Number
-                <Field type="tel" name="number" required />
-              </label>
-              <button type="submit">Add</button>
-            </Form>
-          </Formik>
-        </Title>
+        <Formik initialValues={this.state} onSubmit={this.handleSubmit}>
+          <Form>
+            <label htmlFor="name">
+              <span>Name</span>
+              <Field type="text" name="name" required />
+            </label>
+            <label htmlFor="tel">
+              <span>Number</span>
+              <Field type="tel" name="number" required />
+            </label>
+            <button type="submit">Add</button>
+          </Form>
+        </Formik>
       </>
     );
   }
