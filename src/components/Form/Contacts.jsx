@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { nanoid } from 'nanoid';
-import css from './Contacts.module.css';
 
 export default class Contacts extends Component {
   state = {
